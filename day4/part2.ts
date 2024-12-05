@@ -1,9 +1,6 @@
 import { getInput } from "./getInput";
 
-const { grid } = getInput();
-
 /**
-
 MAS can be written forwards or backwards in diagonal * 2
 
 M.S
@@ -15,12 +12,29 @@ S.M
 S.M
 
 etc..
-
-...
-
  */
 
-function isPatternFoundAt(rowIndex: number, colIndex: number): boolean {
+function main() {
+  const { grid } = getInput();
+  let total = 0;
+
+  // first and last row and column are not considered - because the pattern can not be found there for sure
+  for (let row = 1; row < grid.length - 1; row++) {
+    for (let col = 1; col < grid[row].length - 1; col++) {
+      if (isPatternFoundAt(grid, row, col)) {
+        total += 1;
+      }
+    }
+  }
+
+  console.log(total);
+}
+
+function isPatternFoundAt(
+  grid: string[][],
+  rowIndex: number,
+  colIndex: number
+): boolean {
   // A in center
   if (grid[rowIndex][colIndex] !== "A") {
     return false;
@@ -48,15 +62,4 @@ function isPatternFoundAt(rowIndex: number, colIndex: number): boolean {
   return true;
 }
 
-let total = 0;
-
-// first and last row and column are not considered - because the pattern can not be found there for sure
-for (let row = 1; row < grid.length - 1; row++) {
-  for (let col = 1; col < grid[row].length - 1; col++) {
-    if (isPatternFoundAt(row, col)) {
-      total += 1;
-    }
-  }
-}
-
-console.log(total);
+main();

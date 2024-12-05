@@ -1,5 +1,6 @@
-/**
+import { getInput } from "./getInput";
 
+/**
 There are two new instructions you'll need to handle:
 
 The do() instruction enables future mul instructions.
@@ -7,10 +8,12 @@ The don't() instruction disables future mul instructions.
 
 Only the most recent do() or don't() instruction applies.
 At the beginning of the program, mul instructions are enabled.
-
  */
 
-import { getInput } from "./getInput";
+function main() {
+  const input = getInput();
+  console.log(getSumOfMultiplications(input.memory));
+}
 
 function getSumOfMultiplications(memory: string) {
   let total = 0;
@@ -113,10 +116,6 @@ function getSumOfMultiplications(memory: string) {
   return total;
 }
 
-function isNumber(str: string) {
-  return !Number.isNaN(Number.parseInt(str));
-}
-
 function characterCollector(
   str: string,
   startIndex: number,
@@ -146,5 +145,8 @@ function sequenceCollector(str: string, startIndex: number, seq: string) {
   return collected;
 }
 
-const input = getInput();
-console.log(getSumOfMultiplications(input.memory));
+function isNumber(str: string) {
+  return !Number.isNaN(Number.parseInt(str));
+}
+
+main();

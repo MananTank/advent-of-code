@@ -1,31 +1,43 @@
 import { getInput } from "./getInput";
 
-const { rules, updates } = getInput();
-
 // rules is an array of arrays of two numbers
 // first number must come before second number in an array of numbers called an "update"
 // if all the numbers in an update follow the rules, then the update is valid
+// find all the invalid updates, make them valid by rearranging the numbers and sum the middle numbers of all the updates
 
-function isUpdateValid(update: number[]): boolean {
-  // for each number in the update - store its index in array
+function main() {
+  const { rules, updates } = getInput();
+
+  // for each valid update, find the middle number and sum them all together
+  let total = 0;
+  for (const update of updates) {
+    if (!isUpdateValid(rules, update)) {
+      const fixedUpdate = getFixedUpdate(rules, update);
+      total += fixedUpdate[(fixedUpdate.length - 1) / 2];
+    }
+  }
+  console.log(total);
+}
+
+function isUpdateValid(rules: [number, number][], update: number[]): boolean {
   const numberToIndexMap = new Map<number, number>();
   update.forEach((number, index) => {
     numberToIndexMap.set(number, index);
   });
 
-  // check that each rule is followed in the update
-  return rules.every(([a, b]) => {
-    const aIndex = numberToIndexMap.get(a);
-    const bIndex = numberToIndexMap.get(b);
-    if (aIndex === undefined || bIndex === undefined) {
-      return true;
+  // if a rule breaks, return false
+  for (const rule of rules) {
+    const aIndex = numberToIndexMap.get(rule[0]);
+    const bIndex = numberToIndexMap.get(rule[1]);
+    if (aIndex !== undefined && bIndex !== undefined && aIndex > bIndex) {
+      return false;
     }
+  }
 
-    return aIndex !== undefined && bIndex !== undefined && aIndex < bIndex;
-  });
+  return true;
 }
 
-function getFixedUpdate(update: number[]): number[] {
+function getFixedUpdate(rules: [number, number][], update: number[]): number[] {
   const numberToIndexMap = new Map<number, number>();
   update.forEach((number, index) => {
     numberToIndexMap.set(number, index);
@@ -58,13 +70,4 @@ function getFixedUpdate(update: number[]): number[] {
   return update;
 }
 
-// for each valid update, find the middle number and sum them all together
-let total = 0;
-for (const update of updates) {
-  if (!isUpdateValid(update)) {
-    const fixedUpdate = getFixedUpdate(update);
-    total += fixedUpdate[(fixedUpdate.length - 1) / 2];
-  }
-}
-
-console.log(total);
+main();

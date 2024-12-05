@@ -1,8 +1,8 @@
 import { getInput } from "./getInput";
 
 /**
-
-The unusual data (your puzzle input) consists of many reports, one report per line.
+ *
+data consists of many reports, one report per line.
 Each report is a list of numbers called levels that are separated by spaces. For example:
 
 7 6 4 2 1
@@ -21,6 +21,21 @@ report only counts as safe if both of the following are true:
 How many reports are safe?
  */
 
+function main() {
+  const input = getInput();
+
+  let totalSafeReports = 0;
+  for (const report of input.reports) {
+    if (isValidReport(report)) {
+      totalSafeReports++;
+    }
+  }
+
+  console.log(totalSafeReports);
+}
+
+main();
+
 function isValidReport(report: number[]): boolean {
   const isIncreasingReport = report[0] < report[1];
 
@@ -35,14 +50,3 @@ function isValidReport(report: number[]): boolean {
 
   return true;
 }
-
-const input = getInput();
-
-let totalSafeReports = 0;
-for (const report of input.reports) {
-  if (isValidReport(report)) {
-    totalSafeReports++;
-  }
-}
-
-console.log(totalSafeReports);

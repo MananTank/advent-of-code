@@ -1,11 +1,49 @@
 import { getInput } from "./getInput";
 
-const { grid } = getInput();
+// Look for the sequence "XMAS" in all 8 directions at each point in the grid
+// How many times does the sequence "XMAS" appear in the grid?
+
+function main() {
+  const { grid } = getInput();
+  let total = 0;
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      total += getTotalSequencesFoundAt(grid, row, col, "XMAS");
+    }
+  }
+
+  console.log(total);
+}
+
+function getTotalSequencesFoundAt(
+  grid: string[][],
+  rowIndex: number,
+  colIndex: number,
+  seq: string
+): number {
+  let total = 0;
+
+  // look for seq in all 8 directions starting at (rowIndex, colIndex) (9-1)
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) {
+        continue;
+      }
+
+      if (isSequenceFoundAt(grid, rowIndex, colIndex, seq, [dr, dc])) {
+        total++;
+      }
+    }
+  }
+
+  return total;
+}
 
 // rowIndex and colIndex are the starting point of the sequence
 // direction is an array of 2 numbers, the first number is the row increment, the second number is the column increment
 // [1, 0] means go right, [-1, 0] means go left ...etc - total 9 combinations (3*3)
 function isSequenceFoundAt(
+  grid: string[][],
   rowIndex: number,
   colIndex: number,
   seq: string,
@@ -35,34 +73,4 @@ function isSequenceFoundAt(
   return true;
 }
 
-function getTotalSequencesFoundAt(
-  rowIndex: number,
-  colIndex: number,
-  seq: string
-): number {
-  let total = 0;
-
-  // look for seq in all 8 directions starting at (rowIndex, colIndex) (9-1)
-  for (let dr = -1; dr <= 1; dr++) {
-    for (let dc = -1; dc <= 1; dc++) {
-      if (dr === 0 && dc === 0) {
-        continue;
-      }
-
-      if (isSequenceFoundAt(rowIndex, colIndex, seq, [dr, dc])) {
-        total++;
-      }
-    }
-  }
-
-  return total;
-}
-
-let total = 0;
-for (let row = 0; row < grid.length; row++) {
-  for (let col = 0; col < grid[row].length; col++) {
-    total += getTotalSequencesFoundAt(row, col, "XMAS");
-  }
-}
-
-console.log(total);
+main();

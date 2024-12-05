@@ -3,6 +3,19 @@
 
 import { getInput } from "./getInput";
 
+function main() {
+  const input = getInput();
+
+  let totalSafeReports = 0;
+  for (const report of input.reports) {
+    if (isValidReportWithTolerance(report)) {
+      totalSafeReports++;
+    }
+  }
+
+  console.log(totalSafeReports);
+}
+
 function isValidReport(report: number[]): boolean {
   const isIncreasingReport = report[0] < report[1];
 
@@ -34,13 +47,4 @@ function isValidReportWithTolerance(report: number[]): boolean {
   return false;
 }
 
-const input = getInput();
-
-let totalSafeReports = 0;
-for (const report of input.reports) {
-  if (isValidReportWithTolerance(report)) {
-    totalSafeReports++;
-  }
-}
-
-console.log(totalSafeReports);
+main();

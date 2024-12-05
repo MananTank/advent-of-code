@@ -1,3 +1,5 @@
+import { getInput } from "./getInput";
+
 // we only care about mul(X,Y),
 // the program's memory has been corrupted, there are also many invalid characters that should be ignored
 // Sequences like mul(4*, mul(6,9!, ?(12,34), or mul (2,4) do nothing.
@@ -6,7 +8,10 @@
 // Scan the corrupted memory for uncorrupted mul instructions.
 // What do you get if you add up all of the results of the multiplications?
 
-import { getInput } from "./getInput";
+function main() {
+  const input = getInput();
+  console.log(getSumOfMultiplications(input.memory));
+}
 
 function getSumOfMultiplications(memory: string) {
   let total = 0;
@@ -56,10 +61,6 @@ function getSumOfMultiplications(memory: string) {
   return total;
 }
 
-function isNumber(str: string) {
-  return !Number.isNaN(Number.parseInt(str));
-}
-
 function characterCollector(
   str: string,
   startIndex: number,
@@ -89,5 +90,8 @@ function sequenceCollector(str: string, startIndex: number, seq: string) {
   return collected;
 }
 
-const input = getInput();
-console.log(getSumOfMultiplications(input.memory));
+function isNumber(str: string) {
+  return !Number.isNaN(Number.parseInt(str));
+}
+
+main();
