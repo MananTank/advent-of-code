@@ -1,11 +1,11 @@
-# Advent of Code 2024 solutions in TypeScript
+# Advent of Code solutions in TypeScript
 
-https://adventofcode.com/2024
+https://adventofcode.com
 
-## Executing scripts
+## Running the solutions
 
-For example, if you want to run the part 1 solution for day 1, you can run it with the following command:
+For example, if you want to run the 2024 part 1 solution for day 1, you can run it with the following command:
 
 ```bash
-bun day1/part1.ts
+bun 2024/day1/part1.ts
 ````
