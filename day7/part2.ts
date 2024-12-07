@@ -5,6 +5,7 @@ import { getInput } from "./getInput";
 function main() {
   let sum = 0;
   const { equations } = getInput();
+
   for (const equation of equations) {
     const values = findAllPossibleValuesForEquation(
       equation.value,
@@ -12,7 +13,7 @@ function main() {
       equation.numbers.length - 1
     );
 
-    if (values.includes(equation.value)) {
+    if (values && values.includes(equation.value)) {
       sum += equation.value;
     }
   }
@@ -23,11 +24,10 @@ function main() {
 main();
 
 function findAllPossibleValuesForEquation(
-  value: number,
+  maxValue: number,
   numbers: number[],
   endIndex: number
 ): number[] {
-  const possibleValues = [];
   const lastNum = numbers[endIndex];
 
   // if there's only 1 number left, return it
@@ -37,16 +37,30 @@ function findAllPossibleValuesForEquation(
 
   // results from rest of the numbers
   const firstNumValues = findAllPossibleValuesForEquation(
-    value,
+    maxValue,
     numbers,
     endIndex - 1
   );
 
+  const possibleValues = [];
+
   // include the current number by either adding or multiplying with the rest of the numbers
   for (const other of firstNumValues) {
-    possibleValues.push(lastNum + other);
-    possibleValues.push(lastNum * other);
-    possibleValues.push(Number(other.toString() + lastNum.toString()));
+    const num1 = Number(other.toString() + lastNum.toString());
+    const num2 = other * lastNum;
+    const num3 = other + lastNum;
+
+    if (num1 <= maxValue) {
+      possibleValues.push(num1);
+    }
+
+    if (num2 <= maxValue) {
+      possibleValues.push(num2);
+    }
+
+    if (num3 <= maxValue) {
+      possibleValues.push(num3);
+    }
   }
 
   return possibleValues;
